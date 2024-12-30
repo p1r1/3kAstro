@@ -1,70 +1,50 @@
-import mdx from "@astrojs/mdx";
-import react from "@astrojs/react";
-import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
-import AutoImport from "astro-auto-import";
 import { defineConfig } from "astro/config";
-import remarkCollapse from "remark-collapse";
-import remarkToc from "remark-toc";
-import config from "./src/config/config.json";
+import react from "@astrojs/react";
+import CompressionPlugin from "vite-plugin-compression";
+import sitemap from "@astrojs/sitemap";
 
-import vercel from "@astrojs/vercel/serverless";
+export const siteUrl = "https://komposital.com";
 
+const date = new Date().toISOString();
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://komposital.com/',
-  base: '',
-  site: config.site.base_url ? config.site.base_url : "http://examplesite.com",
-  base: config.site.base_path ? config.site.base_path : "/",
-  trailingSlash: config.site.trailing_slash ? "always" : "never",
-  output: "server",
+    site: siteUrl + "/",
 
-  image: {},
+    integrations: [
+        react(),
+        sitemap({
+            serialize(item) {
+                // Default values for pages
+                item.priority = siteUrl + "/" === item.url ? 1.0 : 0.9;
+                item.changefreq = "weekly";
+                item.lastmod = date;
 
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler",
-        },
-      },
-    },
-  },
+                // if you want to exclude a page from the sitemap, do it here
+                // if (/exclude-from-sitemap/.test(item.url)) {
+                //     return undefined;
+                // }
 
-  integrations: [
-    react(),
-    sitemap(),
-    tailwind({ applyBaseStyles: false }),
-    AutoImport({
-      imports: [
-        "@/shortcodes/Button",
-        "@/shortcodes/Accordion",
-        "@/shortcodes/Notice",
-        "@/shortcodes/Video",
-        "@/shortcodes/Youtube",
-        "@/shortcodes/Tabs",
-        "@/shortcodes/Tab",
-      ],
-    }),
-    mdx(),
-  ],
+                // if any page needs a different priority, changefreq, or lastmod, uncomment the following lines and adjust as needed
+                // if (/test-sitemap/.test(item.url)) {
+                //     item.changefreq = "daily";
+                //     item.lastmod = date;
+                //     item.priority = 0.9;
+                // }
 
-  markdown: {
-    remarkPlugins: [
-      remarkToc,
-      [
-        remarkCollapse,
-        {
-          test: "Table of contents",
-        },
-      ],
+                // if you want to change priority of all subpages like "/posts/*", you can use:
+                // if (/\/posts\//.test(item.url)) {
+                //     item.priority = 0.7;
+                // }
+                return item;
+            },
+        }),
     ],
-    shikiConfig: {
-      theme: "one-dark-pro",
-      wrap: true,
+    renderers: ["@astrojs/renderer-react"],
+    prerender: true,
+    vite: {
+        plugins: [CompressionPlugin()],
     },
-    extendDefaultPlugins: true,
-  },
-
-  adapter: vercel(),
+    buildOptions: {
+        minify: true,
+    },
 });

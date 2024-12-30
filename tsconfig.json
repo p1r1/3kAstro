@@ -1,25 +1,20 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es6",
-    "allowJs": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "jsx": "react",
-    "isolatedModules": true,
-    "incremental": true,
-    "allowSyntheticDefaultImports": true,
+    
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "baseUrl": "src",
     "paths": {
-      "@/components/*": ["./src/layouts/components/*"],
-      "@/functional-components/*": ["./src/layouts/functional-components/*"],
-      "@/shortcodes/*": ["./src/layouts/shortcodes/*"],
-      "@/helpers/*": ["./src/layouts/helpers/*"],
-      "@/partials/*": ["./src/layouts/partials/*"],
-      "@/*": ["./src/*"]
+        "@components/*": ["components/*"],
+        "@modules/*": ["modules/*"],
+        "@styles/*": ["styles/*"],
+        "@layouts/*": ["layouts/*"],
+        "@pages/*": ["pages/*"],
+        "@static/*": ["static/*"],
+        "@utils/*": ["utils/*"],
+        "@data/*": ["data/*"],
+        "@content/*": ["content/*"],
     }
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.astro"],
-  "exclude": ["node_modules"]
+  }
 }

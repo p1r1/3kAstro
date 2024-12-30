@@ -1,4 +1,6 @@
 User-agent: *
-Allow: /
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
 
-Disallow: /api/*
+Sitemap: http://www.CHANGEME.com/sitemap.xml

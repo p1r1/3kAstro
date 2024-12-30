@@ -1,27 +1,43 @@
 ---
-import Base from "@/layouts/Base.astro";
+import { ContentSection } from "@modules/ContentSection";
+import Layout from "../layouts/Layout.astro";
+import { FadeIn } from "@utils/animations/FadeIn";
+import { Button } from "@components/Button";
 ---
 
-<Base title="Page Not Found">
-  <section class="section-sm text-center">
-    <div class="container">
-      <div class="row justify-center">
-        <div class="sm:col-10 md:col-8 lg:col-6">
-          <span class="text-[8rem] block font-bold text-dark dark:text-darkmode-dark">
-            404
-          </span>
-          <h1 class="h2 mb-4">Page not found</h1>
-          <div class="content">
-            <p>
-              The page you are looking for might have been removed, had its
-              name changed, or is temporarily unavailable.
-            </p>
-          </div>
-          <a href="/" class="btn btn-primary mt-8">
-            Back to home
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-</Base>
+<Layout
+    title="404 | Page not found"
+    description="The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
+>
+    <main class="page-content page-404">
+        <ContentSection
+            style={{
+                maxWidth: "600px",
+                margin: "0 auto",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+            }}
+        >
+            <FadeIn client:visible>
+                <h1>Wooops - Soory! 404</h1>
+                <p>
+                    The page you are looking for might have been removed, had
+                    its name changed, or is temporarily unavailable.
+                </p>
+
+                <Button
+                    variant="secondary"
+                    showIcon={false}
+                    link="/"
+                    align="center"
+                >
+                    Go back
+                </Button>
+            </FadeIn>
+        </ContentSection>
+    </main>
+</Layout>
